@@ -5,7 +5,7 @@ Tags: admin, posts, dates, editor, publish-date
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,11 @@ If your permalink structure includes the date, changing the published date may c
 
 == Changelog ==
 
+= 1.4.4 =
+* Fixed text domain mismatch issues
+* Standardized text domain format for proper translations
+* Improved internationalization support
+
 = 1.4.3 =
 * Fixed security issue with nonce validation
 * Added proper unslashing and sanitization of nonce values
@@ -111,6 +116,9 @@ If your permalink structure includes the date, changing the published date may c
 * Post ID based search
 
 == Upgrade Notice ==
+
+= 1.4.4 =
+Internationalization fix: Corrects text domain issues for better translation support.
 
 = 1.4.3 =
 Security fix: Improves nonce handling and input sanitization. Please update immediately.

@@ -5,6 +5,12 @@ All notable changes to the "Post Date Editor" plugin will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.4] - 2023-08-15
+### Fixed
+- Text domain mismatch issues for proper translations
+- Standardized text domain format from 'post date editor' to 'post-date-editor'
+- Improved internationalization support throughout the plugin
+
 ## [1.4.3] - 2023-08-10
 ### Security
 - Fixed security issue with nonce validation
