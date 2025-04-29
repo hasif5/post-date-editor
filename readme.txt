@@ -5,7 +5,7 @@ Tags: admin, posts, dates, editor, modification date, publish date
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.0
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,10 @@ If your permalink structure includes the date, changing the published date may c
 
 == Changelog ==
 
+= 1.4.1 =
+* Fixed issue with admin page showing "link expired" error
+* Removed incorrect nonce verification on page load
+
 = 1.4.0 =
 * Added advanced search functionality with title-based search
 * Added post preview card with detailed information
@@ -96,6 +100,9 @@ If your permalink structure includes the date, changing the published date may c
 * Post ID based search
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+Fixes an issue where the admin page was showing a "link expired" error. Please update for improved stability.
 
 = 1.4.0 =
 Major update with improved search functionality, post preview card, and enhanced UI. Security improvements included.

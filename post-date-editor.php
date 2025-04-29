@@ -3,7 +3,7 @@
  * Plugin Name: Post Date Editor
  * Plugin URI:  https://github.com/DigitalBKK/post-date-editor
  * Description: Quick admin page to view / change a post's Published and Last-Modified dates by ID.
- * Version:     1.4.0
+ * Version:     1.4.1
  * Author:      DigitalBKK
  * Author URI:  https://digitalbkk.com
  * License:     GPL-2.0+
@@ -46,7 +46,7 @@ add_action('admin_menu', function () {
  * Add admin notices.
  */
 add_action('admin_notices', function () {
-    if (!isset($_GET['page']) || $_GET['page'] !== 'post-date-editor' || !check_admin_referer('post-date-editor', false)) {
+    if (!isset($_GET['page']) || $_GET['page'] !== 'post-date-editor') {
         return;
     }
 

@@ -2,6 +2,8 @@
 
 A WordPress plugin that provides a quick and efficient way to edit post and page publication and modification dates through an admin interface.
 
+**Current Version: 1.4.1**
+
 ## Description
 
 Post Date Editor is a simple yet powerful WordPress plugin that allows administrators to easily view and modify the published date and last-modified date of any post or page. It provides a clean, user-friendly interface in the WordPress admin area with advanced search capabilities.
