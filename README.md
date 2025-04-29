@@ -23,6 +23,7 @@ Post Date Editor is a simple yet powerful WordPress plugin that allows administr
 2. Go to WordPress admin panel > Plugins > Add New
 3. Click on "Upload Plugin" and choose the downloaded zip file
 4. Click "Install Now" and then "Activate"
+5. Go to Tools > Post Date Editor to use the interface
 
 ## Usage
 
@@ -44,6 +45,18 @@ Post Date Editor is a simple yet powerful WordPress plugin that allows administr
 - Implements WordPress nonce verification
 - Proper capability checks for admin access
 - Input sanitization and validation
+- Secure timezone handling
+
+## Frequently Asked Questions
+
+### Can I edit dates for custom post types?
+Currently, the plugin supports editing dates for posts and pages. Support for custom post types may be added in future versions.
+
+### Is it possible to bulk edit dates for multiple posts?
+Not in the current version. This plugin is designed for editing dates of individual posts.
+
+### Will this affect my post's permalinks?
+If your permalink structure includes the date, changing the published date may change the permalink for that post.
 
 ## Support
 
@@ -54,6 +67,10 @@ For support, feature requests, or bug reports, please visit the [GitHub reposito
 This plugin is licensed under the GPL v2 or later.
 
 See [LICENSE](http://www.gnu.org/licenses/gpl-2.0.txt) for more information.
+
+## Privacy
+
+This plugin does not collect or store any user data. It only interacts with your WordPress database to edit post dates.
 
 ## Credits
 

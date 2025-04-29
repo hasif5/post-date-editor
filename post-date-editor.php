@@ -8,7 +8,7 @@
  * Author URI:  https://digitalbkk.com
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: post-date-editor
+ * Text Domain: post date editor
  * Domain Path: /languages
  * 
  * This plugin is free software: you can redistribute it and/or modify
@@ -46,21 +46,21 @@ add_action('admin_menu', function () {
  * Add admin notices.
  */
 add_action('admin_notices', function () {
-    if (!isset($_GET['page']) || $_GET['page'] !== 'post-date-editor') {
+    if (!isset($_GET['page']) || $_GET['page'] !== 'post-date-editor' || !check_admin_referer('post-date-editor', false)) {
         return;
     }
 
-    if (isset($_GET['updated'])) {
+    if (isset($_GET['updated']) && current_user_can('manage_options')) {
         printf(
             '<div class="updated notice is-dismissible"><p>%s</p></div>',
-            esc_html__('Post dates updated successfully.')
+            esc_html__('Post dates updated successfully.', 'post date editor')
         );
     }
 
-    if (isset($_GET['error'])) {
+    if (isset($_GET['error']) && current_user_can('manage_options')) {
         printf(
             '<div class="error notice is-dismissible"><p>%s</p></div>',
-            esc_html__('Error updating post dates. Please try again.')
+            esc_html__('Error updating post dates. Please try again.', 'post date editor')
         );
     }
 });
@@ -71,7 +71,7 @@ add_action('admin_notices', function () {
 function cpde_render_admin()
 {
     if (!current_user_can('manage_options')) {
-        wp_die(__('You do not have permission to access this page.'));
+        wp_die(esc_html__('You do not have permission to access this page.', 'post date editor'));
     }
     ?>
     <div class="wrap">
@@ -81,19 +81,19 @@ function cpde_render_admin()
         <div class="cpde-search-options">
             <div class="cpde-search-tabs">
                 <button type="button" class="cpde-tab-button active"
-                    data-tab="id"><?php _e('Search by ID', 'post-date-editor'); ?></button>
+                    data-tab="id"><?php esc_html_e('Search by ID', 'post date editor'); ?></button>
                 <button type="button" class="cpde-tab-button"
-                    data-tab="title"><?php _e('Search by Title', 'post-date-editor'); ?></button>
+                    data-tab="title"><?php esc_html_e('Search by Title', 'post date editor'); ?></button>
             </div>
 
             <!-- ID Search -->
             <div class="cpde-search-panel active" id="cpde-id-search">
                 <div class="cpde-input-section">
-                    <label for="cpde_post_id"><?php _e('Enter Post ID:', 'post-date-editor'); ?></label>
+                    <label for="cpde_post_id"><?php esc_html_e('Enter Post ID:', 'post date editor'); ?></label>
                     <div class="cpde-input-wrapper">
                         <input type="number" id="cpde_post_id" class="regular-text" min="1" />
                         <button type="button" class="button button-secondary"
-                            id="cpde_fetch_post"><?php _e('Fetch Post', 'post-date-editor'); ?></button>
+                            id="cpde_fetch_post"><?php esc_html_e('Fetch Post', 'post date editor'); ?></button>
                     </div>
                 </div>
             </div>
@@ -101,9 +101,9 @@ function cpde_render_admin()
             <!-- Title Search -->
             <div class="cpde-search-panel" id="cpde-title-search">
                 <div class="cpde-input-section">
-                    <label for="cpde_post_search"><?php _e('Search by title:', 'post-date-editor'); ?></label>
+                    <label for="cpde_post_search"><?php esc_html_e('Search by title:', 'post date editor'); ?></label>
                     <input type="text" id="cpde_post_search" class="regular-text"
-                        placeholder="<?php esc_attr_e('Type to search posts...', 'post-date-editor'); ?>" />
+                        placeholder="<?php esc_attr_e('Type to search posts...', 'post date editor'); ?>" />
                     <div id="cpde_search_results" class="cpde-search-results"></div>
                 </div>
             </div>
@@ -189,12 +189,12 @@ add_action('admin_enqueue_scripts', function ($hook) {
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('cpde_ajax_nonce'),
         'strings' => array(
-            'saving' => __('Saving...', 'post-date-editor'),
-            'saved' => __('Saved!', 'post-date-editor'),
-            'error' => __('Error occurred. Please try again.', 'post-date-editor'),
-            'fetching' => __('Fetching post...', 'post-date-editor'),
-            'notFound' => __('No post found with that ID.', 'post-date-editor'),
-            'searchPlaceholder' => __('Search by post ID or title...', 'post-date-editor')
+            'saving' => __('Saving...', 'post date editor'),
+            'saved' => __('Saved!', 'post date editor'),
+            'error' => __('Error occurred. Please try again.', 'post date editor'),
+            'fetching' => __('Fetching post...', 'post date editor'),
+            'notFound' => __('No post found with that ID.', 'post date editor'),
+            'searchPlaceholder' => __('Search by post ID or title...', 'post date editor')
         )
     ));
 
@@ -237,8 +237,8 @@ add_action('wp_ajax_cpde_fetch_post', function () {
         'comment_count' => $post->comment_count,
         'categories' => wp_get_post_categories($post->ID, array('fields' => 'names')),
         'post_type' => get_post_type_object($post->post_type)->labels->singular_name,
-        'post_date' => date('Y-m-d\TH:i', strtotime($post->post_date)),
-        'post_modified' => date('Y-m-d\TH:i', strtotime($post->post_modified))
+        'post_date' => gmdate('Y-m-d\TH:i', strtotime($post->post_date)),
+        'post_modified' => gmdate('Y-m-d\TH:i', strtotime($post->post_modified))
     ));
 });
 
@@ -257,8 +257,13 @@ add_action('wp_ajax_cpde_save_dates', function () {
         wp_send_json_error('Invalid post ID');
     }
 
-    $published = sanitize_text_field($_POST['published_date']);
-    $modified = sanitize_text_field($_POST['modified_date']);
+    // Validate inputs exist, unslash, then sanitize
+    $published = isset($_POST['published_date']) ? sanitize_text_field(wp_unslash($_POST['published_date'])) : '';
+    $modified = isset($_POST['modified_date']) ? sanitize_text_field(wp_unslash($_POST['modified_date'])) : '';
+
+    if (empty($published) || empty($modified)) {
+        wp_send_json_error('Missing date values');
+    }
 
     // Convert HTML5 datetime-local to MySQL DATETIME
     $published = str_replace('T', ' ', $published) . ':00';
@@ -289,7 +294,8 @@ add_action('wp_ajax_cpde_search_posts', function () {
         wp_send_json_error('Permission denied');
     }
 
-    $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+    // Validate search input exists, unslash, then sanitize
+    $search = isset($_GET['search']) ? sanitize_text_field(wp_unslash($_GET['search'])) : '';
     $results = array();
 
     // Search by title
@@ -315,7 +321,7 @@ add_action('wp_ajax_cpde_search_posts', function () {
         $results[] = array(
             'id' => $post->ID,
             'title' => $title,
-            'post_date' => date('Y-m-d', strtotime($post->post_date)),
+            'post_date' => gmdate('Y-m-d', strtotime($post->post_date)),
             'status' => get_post_status_object($post->post_status)->label,
             'author' => get_the_author_meta('display_name', $post->post_author)
         );
