@@ -2,7 +2,7 @@
 
 A WordPress plugin that provides a quick and efficient way to edit post and page publication and modification dates through an admin interface.
 
-**Current Version: 1.4.1**
+**Current Version: 1.4.4**
 
 ## Description
 
