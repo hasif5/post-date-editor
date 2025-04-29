@@ -3,7 +3,7 @@
  * Plugin Name: Post Date Editor
  * Plugin URI:  https://github.com/DigitalBKK/post-date-editor
  * Description: Quick admin page to view / change a post's Published and Last-Modified dates by ID.
- * Version:     1.4.1
+ * Version:     1.4.2
  * Author:      DigitalBKK
  * Author URI:  https://digitalbkk.com
  * License:     GPL-2.0+
@@ -48,6 +48,15 @@ add_action('admin_menu', function () {
 add_action('admin_notices', function () {
     if (!isset($_GET['page']) || $_GET['page'] !== 'post-date-editor') {
         return;
+    }
+
+    // Verify nonce for GET parameters if they exist
+    if ((isset($_GET['updated']) || isset($_GET['error'])) && !isset($_GET['_wpnonce'])) {
+        return; // Don't show notices without nonce
+    }
+
+    if (isset($_GET['_wpnonce']) && !wp_verify_nonce($_GET['_wpnonce'], 'cpde_update_nonce')) {
+        return; // Invalid nonce
     }
 
     if (isset($_GET['updated']) && current_user_can('manage_options')) {
@@ -265,6 +274,11 @@ add_action('wp_ajax_cpde_save_dates', function () {
         wp_send_json_error('Missing date values');
     }
 
+    // Add nonce verification for direct form submission
+    if (isset($_POST['cpde_nonce'])) {
+        check_admin_referer('cpde_ajax_nonce', 'cpde_nonce');
+    }
+
     // Convert HTML5 datetime-local to MySQL DATETIME
     $published = str_replace('T', ' ', $published) . ':00';
     $modified = str_replace('T', ' ', $modified) . ':00';
@@ -279,6 +293,17 @@ add_action('wp_ajax_cpde_save_dates', function () {
 
     if (is_wp_error($result)) {
         wp_send_json_error($result->get_error_message());
+    }
+
+    // Add a valid nonce to the redirect URL if not using AJAX
+    if (!wp_doing_ajax()) {
+        $redirect_url = add_query_arg([
+            'page' => 'post-date-editor',
+            'updated' => '1',
+            '_wpnonce' => wp_create_nonce('cpde_update_nonce')
+        ], admin_url('tools.php'));
+        wp_safe_redirect($redirect_url);
+        exit;
     }
 
     wp_send_json_success();

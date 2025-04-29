@@ -1,14 +1,24 @@
 # Changelog
 
-All notable changes to the Post Date Editor plugin will be documented in this file.
+All notable changes to the "Post Date Editor" plugin will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.1] - 2023-04-30
+## [1.4.2] - 2023-08-01
+### Security
+- Added proper nonce verification for form handling
+- Fixed security issues with admin notice display
+- Improved overall plugin security
+
+### Changed
+- Updated WordPress compatibility to 6.8
+- Reduced plugin tags to comply with WordPress.org guidelines
+
+## [1.4.1] - 2023-07-15
 ### Fixed
-- Issue with admin page showing "link expired" error
-- Removed incorrect nonce verification on page load that was preventing the admin page from loading
+- Fixed issue with admin page showing "link expired" error
+- Removed incorrect nonce verification on page load
 
 ## [1.4.0] - 2023-04-29
 ### Added

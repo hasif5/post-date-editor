@@ -1,11 +1,11 @@
 === Post Date Editor ===
 Contributors: digitalbkk
 Donate link: https://digitalbkk.com/
-Tags: admin, posts, dates, editor, modification date, publish date
+Tags: admin, posts, dates, editor, publish-date
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,12 @@ If your permalink structure includes the date, changing the published date may c
 
 == Changelog ==
 
+= 1.4.2 =
+* Added proper nonce verification for form handling
+* Fixed security issues with admin notice display
+* Updated WordPress compatibility to 6.8
+* Improved plugin security
+
 = 1.4.1 =
 * Fixed issue with admin page showing "link expired" error
 * Removed incorrect nonce verification on page load
@@ -100,6 +106,9 @@ If your permalink structure includes the date, changing the published date may c
 * Post ID based search
 
 == Upgrade Notice ==
+
+= 1.4.2 =
+Security update: Adds proper nonce verification for form handling. Please update immediately for improved security.
 
 = 1.4.1 =
 Fixes an issue where the admin page was showing a "link expired" error. Please update for improved stability.
