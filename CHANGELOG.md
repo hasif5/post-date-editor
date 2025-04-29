@@ -5,6 +5,11 @@ All notable changes to the Post Date Editor plugin will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2023-04-30
+### Fixed
+- Issue with admin page showing "link expired" error
+- Removed incorrect nonce verification on page load that was preventing the admin page from loading
+
 ## [1.4.0] - 2023-04-29
 ### Added
 - Advanced search functionality with title-based search
