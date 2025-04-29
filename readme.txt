@@ -5,7 +5,7 @@ Tags: admin, posts, dates, editor, publish-date
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,11 @@ If your permalink structure includes the date, changing the published date may c
 
 == Changelog ==
 
+= 1.4.3 =
+* Fixed security issue with nonce validation
+* Added proper unslashing and sanitization of nonce values
+* Improved input validation for better security
+
 = 1.4.2 =
 * Added proper nonce verification for form handling
 * Fixed security issues with admin notice display
@@ -106,6 +111,9 @@ If your permalink structure includes the date, changing the published date may c
 * Post ID based search
 
 == Upgrade Notice ==
+
+= 1.4.3 =
+Security fix: Improves nonce handling and input sanitization. Please update immediately.
 
 = 1.4.2 =
 Security update: Adds proper nonce verification for form handling. Please update immediately for improved security.
